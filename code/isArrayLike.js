@@ -2,9 +2,7 @@ import isFunction from './isFunction.js';
 import isLength from './isLength.js';
 
 /**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ * 检查一个 value 是否是类数组的数据。它不是 function，且有 value.length 值，并且 value.length >= 0 && value.length <= Number.MAX_SAFE_INTEGER
  *
  * @since 4.0.0
  * @category Lang
@@ -25,6 +23,7 @@ import isLength from './isLength.js';
  * // => false
  */
 function isArrayLike(value) {
+  // 注：function 有 length 属性，且默认情况下 length 为 0
   return value != null && isLength(value.length) && !isFunction(value);
 }
 

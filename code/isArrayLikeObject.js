@@ -2,8 +2,7 @@ import isArrayLike from './isArrayLike.js';
 import isObjectLike from './isObjectLike.js';
 
 /**
- * This method is like `isArrayLike` except that it also checks if `value`
- * is an object.
+ * 检查 value 是否是一个数组或者对象
  *
  * @since 4.0.0
  * @category Lang

@@ -1,4 +1,5 @@
 /**
+ * 将 values 中的元素依次放到 array 中，类似数组原生方法里的 push
  * Appends the elements of `values` to `array`.
  *
  * @private

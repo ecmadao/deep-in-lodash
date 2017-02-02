@@ -1,6 +1,5 @@
 /**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
+ * 检查 value 是否是一个类对象类型的数据。它不应该是 null，且类型应该是 object
  *
  * @since 4.0.0
  * @category Lang

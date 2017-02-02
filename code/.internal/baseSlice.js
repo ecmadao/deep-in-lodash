@@ -1,3 +1,6 @@
+// What is the JavaScript >>> operator and how do you use it?
+// http://stackoverflow.com/questions/1822350/what-is-the-javascript-operator-and-how-do-you-use-it
+
 /**
  * The base implementation of `slice` without an iteratee call guard.
  *

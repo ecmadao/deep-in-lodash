@@ -205,6 +205,169 @@ baseDifference(array, values, iteratee, comparator)
 
 > [`baseDifference` 源码注释解读](./code/.internal/baseDifference.js)
 
+### `differenceBy`
+
+类似于 `difference` ，但指定了比较时一个类似 format 的方法。相当于 `baseDifference` 中声明了 `iteratee` 参数，在比较过程中，会将每个元素代入 `iteratee` 方法中，用返回的结果进行比较。
+
+#### Usage
+
+```javascript
+_.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor);
+// => [1.2]
+ 
+// The `_.property` iteratee shorthand.
+_.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
+// => [{ 'x': 2 }]
+```
+
+#### Source Code
+
+```javascript
+// last 方法用于获取数组的最后一个元素
+import last from './last.js';
+
+function differenceBy(array, ...values) {
+  let iteratee = last(values);
+  // 如果没有传入比较的方法的话，则 differenceBy 仅作为一个 difference 方法使用
+  if (isArrayLikeObject(iteratee)) {
+    iteratee = undefined;
+  }
+  return isArrayLikeObject(array)
+    ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), iteratee)
+    : [];
+}
+```
+
+### `differenceWith`
+
+类似于 `difference` ，但声明了 `comparator`方法。相当于 `baseDifference` 中代入了 `comparator` 参数，在比较过程中，将按照 `comparator` 方法作为比较的规则。
+
+#### Usage
+
+```javascript
+var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+ 
+_.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+// => [{ 'x': 2, 'y': 1 }]
+```
+
+#### Source Code
+
+```javascript
+function differenceWith(array, ...values) {
+  let comparator = last(values);
+  if (isArrayLikeObject(comparator)) {
+    comparator = undefined;
+  }
+  return isArrayLikeObject(array)
+    ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), undefined, comparator)
+    : [];
+}
+```
+
+### `drop`
+
+从一个数组的开头开始，去除指定数目个元素（默认去除 1 个）
+
+#### Usage
+
+```javascript
+_.drop([1, 2, 3]);
+// => [2, 3]
+ 
+_.drop([1, 2, 3], 2);
+// => [3]
+ 
+_.drop([1, 2, 3], 5);
+// => []
+ 
+_.drop([1, 2, 3], 0);
+// => [1, 2, 3]
+```
+
+#### Source Code
+
+```javascript
+// 两个主要方法：baseSlice & toInteger
+import baseSlice from './.internal/baseSlice.js';
+import toInteger from './toInteger.js';
+
+function drop(array, n, guard) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return [];
+  }
+  n = (guard || n === undefined) ? 1 : toInteger(n);
+  return baseSlice(array, n < 0 ? 0 : n, length);
+}
+```
+
+```javascript
+// toInteger.js
+// 转换为有限数
+import toFinite from './toFinite.js';
+
+function toInteger(value) {
+  const result = toFinite(value);
+  const remainder = result % 1;
+  // 通过 result === result 可知不是 NaN
+  // 返回去除了余数的值
+  return result === result ? (remainder ? result - remainder : result) : 0;
+}
+
+// toFinite.js
+import toNumber from './toNumber.js';
+const INFINITY = 1 / 0;
+const MAX_INTEGER = 1.7976931348623157e+308;
+
+function toFinite(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  // 将正负无穷值转换为最大正整数
+  if (value === INFINITY || value === -INFINITY) {
+    const sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  // 确保 toNumber 转换之后不会返回 NaN
+  return value === value ? value : 0;
+}
+
+// toNumber.js
+typeof value == 'number' // => return value
+isSymbol // => return NaN
+isObject // => 有 valueOf 方法则转换为 value.valueOf()
+		 // => 仍是 Object，则强制转为 String `${value.valueOf()}`
+typeof value != 'string' // => return value === 0 或者 +value
+// => 之后，去除两端空白，检测二进制/八进制/十六进制
+```
+
+```javascript
+// baseSlice
+// 切割数组，获取 index 从 start 到 end 的元素 [start, end]
+function baseSlice(array, start, end) {
+  let index = -1,
+      length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  const result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+```
+
 ### `chunk`
 
 将一个 Array 按照 `size` 参数进行分段，形成由多个 Array 组成的 Array

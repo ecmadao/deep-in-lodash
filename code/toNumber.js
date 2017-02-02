@@ -4,16 +4,16 @@ import isSymbol from './isSymbol.js';
 /** Used as references for various `Number` constants. */
 const NAN = 0 / 0;
 
-/** Used to match leading and trailing whitespace. */
+/** 用于匹配头部和尾部的空白 */
 const reTrim = /^\s+|\s+$/g;
 
-/** Used to detect bad signed hexadecimal string values. */
+/** 检测十六进制 */
 const reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
 
-/** Used to detect binary string values. */
+/** 检测二进制 */
 const reIsBinary = /^0b[01]+$/i;
 
-/** Used to detect octal string values. */
+/** 检测八进制 */
 const reIsOctal = /^0o[0-7]+$/i;
 
 /** Built-in method references without a dependency on `root`. */
@@ -53,6 +53,9 @@ function toNumber(value) {
     value = isObject(other) ? `${ other }` : other;
   }
   if (typeof value != 'string') {
+    // +value 将转换为 int
+    // var a = '1'
+    // +a => 1
     return value === 0 ? value : +value;
   }
   value = value.replace(reTrim, '');

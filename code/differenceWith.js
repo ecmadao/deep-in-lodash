@@ -13,10 +13,10 @@ import last from './last.js';
  *
  * @since 4.0.0
  * @category Array
- * @param {Array} array The array to inspect.
- * @param {...Array} [values] The values to exclude.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
+ * @param {Array} array — 需要检查的 Array
+ * @param {...Array} [values] — 检查时需要剔除的元素
+ * @param {Function} [comparator] — 用于比较的方法
+ * @returns {Array} 返回筛选过后的新 Array
  * @example
  *
  * const objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];

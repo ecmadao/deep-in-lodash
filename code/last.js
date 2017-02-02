@@ -1,5 +1,5 @@
 /**
- * Gets the last element of `array`.
+ * 获取 array 中的最后一个元素
  *
  * @since 0.1.0
  * @category Array

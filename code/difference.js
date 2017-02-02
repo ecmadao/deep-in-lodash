@@ -13,9 +13,9 @@ import isArrayLikeObject from './isArrayLikeObject.js';
  *
  * @since 0.1.0
  * @category Array
- * @param {Array} array The array to inspect.
- * @param {...Array} [values] The values to exclude.
- * @returns {Array} Returns the new array of filtered values.
+ * @param {Array} array — 需要检查的 Array
+ * @param {...Array} [values] — 检查时需要剔除的元素
+ * @returns {Array} 返回筛选过后的新 Array
  * @see union, unionBy, unionWith, without, xor, xorBy, xorWith,
  * @example
  *

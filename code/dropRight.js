@@ -31,6 +31,7 @@ function dropRight(array, n, guard) {
   }
   n = (guard || n === undefined) ? 1 : toInteger(n);
   n = length - n;
+  // 截取 index 从 0 开始，到 length - n 的元素
   return baseSlice(array, 0, n < 0 ? 0 : n);
 }
 

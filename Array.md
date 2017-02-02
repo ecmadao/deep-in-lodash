@@ -298,6 +298,7 @@ function drop(array, n, guard) {
     return [];
   }
   n = (guard || n === undefined) ? 1 : toInteger(n);
+  // 截取 index 从 n 开始，到数组结尾的元素
   return baseSlice(array, n < 0 ? 0 : n, length);
 }
 ```
@@ -345,7 +346,7 @@ typeof value != 'string' // => return value === 0 或者 +value
 
 ```javascript
 // baseSlice
-// 切割数组，获取 index 从 start 到 end 的元素 [start, end]
+// 切割数组，获取 Array 中 index 从 start 到 end 的元素 [start, end]
 function baseSlice(array, start, end) {
   let index = -1,
       length = array.length;
@@ -365,6 +366,41 @@ function baseSlice(array, start, end) {
     result[index] = array[index + start];
   }
   return result;
+}
+```
+
+### `dropRight`
+
+相对于 `drop` 方法，`dropRight` 方法从数组的右侧开始分隔。除此以外其他特性和 `drop` 完全一样。
+
+#### Usage
+
+```javascript
+_.dropRight([1, 2, 3]);
+// => [1, 2]
+ 
+_.dropRight([1, 2, 3], 2);
+// => [1]
+ 
+_.dropRight([1, 2, 3], 5);
+// => []
+ 
+_.dropRight([1, 2, 3], 0);
+// => [1, 2, 3]
+```
+
+#### Source Code
+
+```javascript
+function dropRight(array, n, guard) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return [];
+  }
+  n = (guard || n === undefined) ? 1 : toInteger(n);
+  n = length - n;
+  // 截取 index 从 0 开始，到 length - n 的元素
+  return baseSlice(array, 0, n < 0 ? 0 : n);
 }
 ```
 

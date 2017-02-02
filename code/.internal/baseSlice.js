@@ -2,7 +2,7 @@
 // http://stackoverflow.com/questions/1822350/what-is-the-javascript-operator-and-how-do-you-use-it
 
 /**
- * The base implementation of `slice` without an iteratee call guard.
+ * 切割数组，获取 Array 中 index 从 start 到 end 的元素 [start, end]
  *
  * @private
  * @param {Array} array The array to slice.

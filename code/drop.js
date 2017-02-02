@@ -30,6 +30,7 @@ function drop(array, n, guard) {
     return [];
   }
   n = (guard || n === undefined) ? 1 : toInteger(n);
+  // 截取 index 从 n 开始，到数组结尾的元素
   return baseSlice(array, n < 0 ? 0 : n, length);
 }
 

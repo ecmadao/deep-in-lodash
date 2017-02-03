@@ -404,6 +404,229 @@ function dropRight(array, n, guard) {
 }
 ```
 
+### `dropWhile`
+
+数组从左到右依次剔除元素，直到传入的判断方法返回 `false`
+
+#### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+ 
+_.dropWhile(users, function(o) { return !o.active; });
+// => objects for ['pebbles']
+```
+
+#### Source Code
+
+```javascript
+import baseWhile from './.internal/baseWhile.js';
+
+function dropWhile(array, predicate) {
+  return (array && array.length)
+    ? baseWhile(array, predicate, true)
+    : [];
+}
+```
+
+```javascript
+import baseSlice from './baseSlice.js';
+
+/**
+ * 该私有方法主要针对两个 API：`dropWhile` 和 `takeWhile`
+ * `dropWhile` 会一直丢弃数组中的元素，直到判断的方法返回 false，最终返回剩余的元素组成的 Array
+ * `takeWhile` 则返回由丢弃的元素组成的数组
+ * 两者的区别由 isDrop 参数决定，为 true 则 drop，否则 take
+ *
+ * @private
+ * @param {Array} array — 被执行 drop 的数组
+ * @param {Function} predicate — 每次循环时要执行的判断方法
+ * @param {boolean} [isDrop] — 判断是 drop 还是 take
+ * @param {boolean} [fromRight] — 判断从左侧还是右侧开始
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseWhile(array, predicate, isDrop, fromRight) {
+  const length = array.length;
+  let index = fromRight ? length : -1;
+
+  // 通过 while 求出当 predicate 返回 false 时 index 的值
+  while ((fromRight ? index-- : ++index < length) &&
+    predicate(array[index], index, array)) {}
+
+  /**
+   * drop(array, n) => baseSlice(array, n, array.length)
+   * dropRight(array, n) => baseSlice(array, array.length - n)
+   * take(array, n) => baseSlice(array, 0, n)
+   * takeRight(array, n) => baseSlice(array, array.length - n, array.length)
+   */
+  return isDrop
+    ? baseSlice(array, (fromRight ? 0 : index), (fromRight ? index + 1 : length))
+    : baseSlice(array, (fromRight ? index + 1 : 0), (fromRight ? length : index));
+}
+```
+
+### `dropRightWhile`
+
+相对于 `dropRight` ，`dropRightWhile` 从右侧开始 `drop` ，知道指定的判断方法返回 false
+
+#### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': true },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': false }
+];
+ 
+_.dropRightWhile(users, function(o) { return !o.active; });
+// => objects for ['barney']
+```
+
+#### Source Code
+
+```javascript
+function dropRightWhile(array, predicate) {
+  return (array && array.length)
+    ? baseWhile(array, predicate, true, true)
+    : [];
+}
+```
+
+### `fill`
+
+用 `value` 填充一个数组从 `[start, end)` 里的元素。
+
+#### Usage
+
+```javascript
+var array = [1, 2, 3];
+ 
+_.fill(array, 'a');
+console.log(array);
+// => ['a', 'a', 'a']
+ 
+_.fill(Array(3), 2);
+// => [2, 2, 2]
+ 
+_.fill([4, 6, 8, 10], '*', 1, 3);
+// => [4, '*', '*', 10]
+```
+
+#### Source Code
+
+```javascript
+function baseFill(array, value, start, end) {
+  const length = array.length;
+
+  start = toInteger(start);
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = (end === undefined || end > length) ? length : toInteger(end);
+  if (end < 0) {
+    end += length;
+  }
+  end = start > end ? 0 : toLength(end);
+  while (start < end) {
+    array[start++] = value;
+  }
+  return array;
+}
+```
+
+`fill` 的内部其实很简单，就是遍历一个数组，把 `index` 从 `[start, end` 的元素改成 `value`（直接修改原数组）。而且，由例子可知，利用 `fill` 可以创建一个由指定 `value` 填充的新数组：
+
+```javascript
+_.fill(Array(3), 2);
+// => [2, 2, 2]
+
+//但我们也可以通过 ES6 API 来实现：
+new Array(3).fill(0) // => [0, 0, 0]
+
+// 可惜的是 ES6 fill 兼容性还不是很高，在安卓微信内就会报错。因此，还有一种完全兼容的写法：
+Array.from(new Array(3), (item, index) => 0); // => [0, 0, 0]
+```
+
+### `findIndex`
+
+由传入的判断方法，寻找符合该方法的第一个元素的 `index` 。当没有符合条件的元素时，返回 `-1`
+
+#### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+ 
+_.findIndex(users, function(o) { return o.user == 'barney'; });
+// => 0
+
+// 相对于 findIndex，原生的 indexOf 只能简单的判断两个元素是否完全相等
+```
+
+#### Source Code
+
+```javascript
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  const length = array.length;
+  // 可以通过 fromIndex 参数来指定从哪个 index 开始
+  // fromRight 则指定查找的方向
+  let index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+```
+
+### `findLastIndex`
+
+该方法类似于 `findIndex` ，但是是从右往左开始判断。
+
+#### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': true },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': false }
+];
+ 
+_.findLastIndex(users, function(o) { return o.user == 'pebbles'; });
+// => 2
+```
+
+#### Source Code
+
+```javascript
+const nativeMax = Math.max;
+const nativeMin = Math.min;
+
+function findLastIndex(array, predicate, fromIndex) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return -1;
+  }
+  let index = length - 1;
+  if (fromIndex !== undefined) {
+    index = toInteger(fromIndex);
+    index = fromIndex < 0
+      ? nativeMax(length + index, 0)
+      : nativeMin(index, length - 1);
+  }
+  return baseFindIndex(array, predicate, index, true);
+}
+```
+
 ### `chunk`
 
 将一个 Array 按照 `size` 参数进行分段，形成由多个 Array 组成的 Array

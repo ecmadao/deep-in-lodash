@@ -10,6 +10,8 @@
  */
 function baseFindIndex(array, predicate, fromIndex, fromRight) {
   const length = array.length;
+  // 可以通过 fromIndex 参数来指定从哪个 index 开始
+  // fromRight 则指定查找的方向
   let index = fromIndex + (fromRight ? 1 : -1);
 
   while ((fromRight ? index-- : ++index < length)) {

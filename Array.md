@@ -1,3 +1,76 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Array Funcs](#array-funcs)
+  - [`compact`](#compact)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`concat`](#concat)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+  - [difference](#difference)
+    - [`difference`](#difference)
+      - [Usage](#usage-2)
+      - [Source Code](#source-code-2)
+    - [`differenceBy`](#differenceby)
+      - [Usage](#usage-3)
+      - [Source Code](#source-code-3)
+    - [`differenceWith`](#differencewith)
+      - [Usage](#usage-4)
+      - [Source Code](#source-code-4)
+  - [drop](#drop)
+    - [`drop`](#drop)
+      - [Usage](#usage-5)
+      - [Source Code](#source-code-5)
+    - [`dropWhile`](#dropwhile)
+      - [Usage](#usage-6)
+      - [Source Code](#source-code-6)
+    - [`dropRight`](#dropright)
+      - [Usage](#usage-7)
+      - [Source Code](#source-code-7)
+    - [`dropRightWhile`](#droprightwhile)
+      - [Usage](#usage-8)
+      - [Source Code](#source-code-8)
+  - [take](#take)
+    - [`take`](#take)
+      - [Usage](#usage-9)
+      - [Source Code](#source-code-9)
+    - [`takeWhile`](#takewhile)
+      - [Usage](#usage-10)
+    - [`takeRight`](#takeright)
+      - [Usage](#usage-11)
+    - [`takeRightWhile`](#takerightwhile)
+      - [Usage](#usage-12)
+  - [`fill`](#fill)
+    - [Usage](#usage-13)
+    - [Source Code](#source-code-10)
+  - [find](#find)
+    - [`findIndex`](#findindex)
+      - [Usage](#usage-14)
+      - [Source Code](#source-code-11)
+    - [`findLastIndex`](#findlastindex)
+      - [Usage](#usage-15)
+      - [Source Code](#source-code-12)
+  - [flatten](#flatten)
+    - [`flatten`](#flatten)
+      - [Usage](#usage-16)
+      - [Source Code](#source-code-13)
+    - [`flattenDeep`](#flattendeep)
+      - [Usage](#usage-17)
+      - [Source Code](#source-code-14)
+    - [`flattenDepth`](#flattendepth)
+      - [Usage](#usage-18)
+      - [Source Code](#source-code-15)
+  - [`fromPairs`](#frompairs)
+    - [Usage](#usage-19)
+    - [Source Code](#source-code-16)
+  - [`chunk`](#chunk)
+    - [Usage](#usage-20)
+    - [Source Code](#source-code-17)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Array Funcs
 
 ### `compact`
@@ -127,11 +200,13 @@ function copyArray(source, array) {
 }
 ```
 
-### `difference`
+### difference
+
+#### `difference`
 
 筛选出第一个 Array 中有，但其他 Array 中都没有的参数，返回值为元素组成的 Array
 
-#### Usage
+##### Usage
 
 ```javascript
 _.difference([2, 1], [2, 3]);
@@ -141,7 +216,7 @@ _.difference([2, 1], [2, 3], [1, 4]);
 // => []
 ```
 
-####  Source Code
+#####  Source Code
 
 ```javascript
 import baseDifference from './.internal/baseDifference.js';
@@ -205,11 +280,11 @@ baseDifference(array, values, iteratee, comparator)
 
 > [`baseDifference` 源码注释解读](./code/.internal/baseDifference.js)
 
-### `differenceBy`
+#### `differenceBy`
 
 类似于 `difference` ，但指定了比较时一个类似 format 的方法。相当于 `baseDifference` 中声明了 `iteratee` 参数，在比较过程中，会将每个元素代入 `iteratee` 方法中，用返回的结果进行比较。
 
-#### Usage
+##### Usage
 
 ```javascript
 _.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor);
@@ -220,7 +295,7 @@ _.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
 // => [{ 'x': 2 }]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 // last 方法用于获取数组的最后一个元素
@@ -238,11 +313,11 @@ function differenceBy(array, ...values) {
 }
 ```
 
-### `differenceWith`
+#### `differenceWith`
 
 类似于 `difference` ，但声明了 `comparator`方法。相当于 `baseDifference` 中代入了 `comparator` 参数，在比较过程中，将按照 `comparator` 方法作为比较的规则。
 
-#### Usage
+##### Usage
 
 ```javascript
 var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
@@ -251,7 +326,7 @@ _.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
 // => [{ 'x': 2, 'y': 1 }]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 function differenceWith(array, ...values) {
@@ -265,11 +340,15 @@ function differenceWith(array, ...values) {
 }
 ```
 
-### `drop`
+### drop
+
+> drop 系列方法用于从某个 Array 中丢弃一些（符合条件的）元素，但并不会改变原有数组，而是返回新数组。
+
+#### `drop`
 
 从一个数组的开头开始，去除指定数目个元素（默认去除 1 个）
 
-#### Usage
+##### Usage
 
 ```javascript
 _.drop([1, 2, 3]);
@@ -285,7 +364,7 @@ _.drop([1, 2, 3], 0);
 // => [1, 2, 3]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 // 两个主要方法：baseSlice & toInteger
@@ -369,46 +448,11 @@ function baseSlice(array, start, end) {
 }
 ```
 
-### `dropRight`
-
-相对于 `drop` 方法，`dropRight` 方法从数组的右侧开始分隔。除此以外其他特性和 `drop` 完全一样。
-
-#### Usage
-
-```javascript
-_.dropRight([1, 2, 3]);
-// => [1, 2]
- 
-_.dropRight([1, 2, 3], 2);
-// => [1]
- 
-_.dropRight([1, 2, 3], 5);
-// => []
- 
-_.dropRight([1, 2, 3], 0);
-// => [1, 2, 3]
-```
-
-#### Source Code
-
-```javascript
-function dropRight(array, n, guard) {
-  const length = array == null ? 0 : array.length;
-  if (!length) {
-    return [];
-  }
-  n = (guard || n === undefined) ? 1 : toInteger(n);
-  n = length - n;
-  // 截取 index 从 0 开始，到 length - n 的元素
-  return baseSlice(array, 0, n < 0 ? 0 : n);
-}
-```
-
-### `dropWhile`
+#### `dropWhile`
 
 数组从左到右依次剔除元素，直到传入的判断方法返回 `false`
 
-#### Usage
+##### Usage
 
 ```javascript
 var users = [
@@ -421,7 +465,7 @@ _.dropWhile(users, function(o) { return !o.active; });
 // => objects for ['pebbles']
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 import baseWhile from './.internal/baseWhile.js';
@@ -469,11 +513,46 @@ function baseWhile(array, predicate, isDrop, fromRight) {
 }
 ```
 
-### `dropRightWhile`
+#### `dropRight`
+
+相对于 `drop` 方法，`dropRight` 方法从数组的右侧开始分隔。除此以外其他特性和 `drop` 完全一样。
+
+##### Usage
+
+```javascript
+_.dropRight([1, 2, 3]);
+// => [1, 2]
+ 
+_.dropRight([1, 2, 3], 2);
+// => [1]
+ 
+_.dropRight([1, 2, 3], 5);
+// => []
+ 
+_.dropRight([1, 2, 3], 0);
+// => [1, 2, 3]
+```
+
+##### Source Code
+
+```javascript
+function dropRight(array, n, guard) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return [];
+  }
+  n = (guard || n === undefined) ? 1 : toInteger(n);
+  n = length - n;
+  // 截取 index 从 0 开始，到 length - n 的元素
+  return baseSlice(array, 0, n < 0 ? 0 : n);
+}
+```
+
+#### `dropRightWhile`
 
 相对于 `dropRight` ，`dropRightWhile` 从右侧开始 `drop` ，知道指定的判断方法返回 false
 
-#### Usage
+##### Usage
 
 ```javascript
 var users = [
@@ -486,7 +565,7 @@ _.dropRightWhile(users, function(o) { return !o.active; });
 // => objects for ['barney']
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 function dropRightWhile(array, predicate) {
@@ -494,6 +573,85 @@ function dropRightWhile(array, predicate) {
     ? baseWhile(array, predicate, true, true)
     : [];
 }
+```
+
+### take
+
+> take 系列方法类似于 drop，底层实现一样。但 take 是从某个 Array 中获取指定数目个（符合条件的）元素，且不改变原数组。
+
+#### `take`
+
+从数组的开始，选取指定数目的元素
+
+##### Usage
+
+```javascript
+_.take([1, 2, 3]);
+// => [1]
+ 
+_.take([1, 2, 3], 2);
+// => [1, 2]
+```
+
+##### Source Code
+
+```javascript
+function take(array, n, guard) {
+  if (!(array && array.length)) {
+    return [];
+  }
+  n = (guard || n === undefined) ? 1 : toInteger(n);
+  // 获取 index 位于 [0, n] 的元素
+  return baseSlice(array, 0, n < 0 ? 0 : n);
+}
+```
+
+#### `takeWhile`
+
+从 Array 左侧开始，仅返回符合指定条件的元素
+
+##### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+ 
+_.takeWhile(users, function(o) { return !o.active; });
+// => objects for ['barney', 'fred']
+```
+
+#### `takeRight`
+
+从 Array 右侧开始，选取指定数目个元素
+
+##### Usage
+
+```javascript
+_.takeRight([1, 2, 3]);
+// => [3]
+ 
+_.takeRight([1, 2, 3], 2);
+// => [2, 3]
+```
+
+#### `takeRightWhile`
+
+从 Array 右侧开始，返回符合指定条件的元素
+
+##### Usage
+
+```javascript
+var users = [
+  { 'user': 'barney',  'active': true },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': false }
+];
+ 
+_.takeRightWhile(users, function(o) { return !o.active; });
+// => objects for ['fred', 'pebbles']
 ```
 
 ### `fill`
@@ -551,11 +709,13 @@ new Array(3).fill(0) // => [0, 0, 0]
 Array.from(new Array(3), (item, index) => 0); // => [0, 0, 0]
 ```
 
-### `findIndex`
+### find
+
+#### `findIndex`
 
 由传入的判断方法，寻找符合该方法的第一个元素的 `index` 。当没有符合条件的元素时，返回 `-1`
 
-#### Usage
+##### Usage
 
 ```javascript
 var users = [
@@ -570,7 +730,7 @@ _.findIndex(users, function(o) { return o.user == 'barney'; });
 // 相对于 findIndex，原生的 indexOf 只能简单的判断两个元素是否完全相等
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 function baseFindIndex(array, predicate, fromIndex, fromRight) {
@@ -588,11 +748,11 @@ function baseFindIndex(array, predicate, fromIndex, fromRight) {
 }
 ```
 
-### `findLastIndex`
+#### `findLastIndex`
 
 该方法类似于 `findIndex` ，但是是从右往左开始判断。
 
-#### Usage
+##### Usage
 
 ```javascript
 var users = [
@@ -605,7 +765,7 @@ _.findLastIndex(users, function(o) { return o.user == 'pebbles'; });
 // => 2
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 const nativeMax = Math.max;
@@ -627,11 +787,13 @@ function findLastIndex(array, predicate, fromIndex) {
 }
 ```
 
-### `flatten`
+### flatten
+
+#### `flatten`
 
 将一个数组扁平化，即如果它是多层 Array 结构，则把各个元素抽出来，组成一个单层的数组。但要注意的是，`flatten` 方法只进行单层的递归
 
-#### Usage
+##### Usage
 
 ```javascript
 // 因为只进行单层的递归，所以 [2, [3, [4]]] 中的 [3, [4]] 不会再被拆出
@@ -639,7 +801,7 @@ _.flatten([1, [2, [3, [4]], 5]]);
 // => [1, 2, [3, [4]], 5]
 ```
 
-#### Source Code
+##### Source Code
 
 > [baseFlatten 源码解析](#concat)
 
@@ -651,18 +813,18 @@ function flatten(array) {
 }
 ```
 
-### `flattenDeep`
+#### `flattenDeep`
 
 作用与 `flatten` 相同，但递归深度指定无穷次，因此可以将所有层级的数组拆分
 
-#### Usage
+##### Usage
 
 ```javascript
 _.flattenDeep([1, [2, [3, [4]], 5]]);
 // => [1, 2, 3, 4, 5]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 // 指定递归深度为无穷次
@@ -675,11 +837,11 @@ function flattenDeep(array) {
 }
 ```
 
-### `flattenDepth`
+#### `flattenDepth`
 
 作用与 `flatten` 相同，但自己指定递归深度。深度默认为 1
 
-#### Usage
+##### Usage
 
 ```javascript
 var array = [1, [2, [3, [4]], 5]];
@@ -691,7 +853,7 @@ _.flattenDepth(array, 2);
 // => [1, 2, 3, [4], 5]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 function flattenDepth(array, depth) {
@@ -736,28 +898,6 @@ function fromPairs(pairs) {
     result[pair[0]] = pair[1];
   }
   return result;
-}
-```
-
-### `head`
-
-获取 Array 中的第一个元素
-
-#### Usage
-
-```javascript
-_.head([1, 2, 3]);
-// => 1
- 
-_.head([]);
-// => undefined
-```
-
-####  Source Code
-
-```javascript
-function head(array) {
-  return (array && array.length) ? array[0] : undefined;
 }
 ```
 
@@ -810,7 +950,7 @@ function chunk(array, size, guard) {
 自己实现 `chunk` 方法：
 
 ```javascript
-const splitArray = (array, size) => {
+const splitArray = (array, size = 1) => {
   const length = array.length;
   if (length <= size) {
     return [array];

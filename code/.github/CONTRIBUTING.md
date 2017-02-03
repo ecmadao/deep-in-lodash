@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [:construction: Notice :construction:](#construction-notice-construction)
+- [Contributing to Lodash](#contributing-to-lodash)
+  - [Feature Requests](#feature-requests)
+  - [Pull Requests](#pull-requests)
+  - [Contributor License Agreement](#contributor-license-agreement)
+  - [Coding Guidelines](#coding-guidelines)
+  - [Tips](#tips)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # :construction: Notice :construction:
 
 Pardon the mess. The `master` branch is in flux while we work on Lodash v5. This

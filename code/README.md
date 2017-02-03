@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [lodash v4.17.4](#lodash-v4174)
+  - [Download](#download)
+  - [Installation](#installation)
+  - [Why Lodash?](#why-lodash)
+  - [Module Formats](#module-formats)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # lodash v4.17.4
 
 [Site](https://lodash.com/) |

@@ -1,4 +1,5 @@
 /**
+ * 重复调用 n 次 iteratee 方法，并返回由 iteratee 结果组成的 Array
  * The base implementation of `times` without support for max array length checks.
  *
  * @private

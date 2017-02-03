@@ -1,4 +1,5 @@
 /**
+ * 获取某个 Object 里指定 key 的 value
  * The base implementation of `property` without support for deep paths.
  *
  * @private

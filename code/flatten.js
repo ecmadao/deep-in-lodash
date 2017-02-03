@@ -15,6 +15,7 @@ import baseFlatten from './.internal/baseFlatten.js';
  */
 function flatten(array) {
   const length = array == null ? 0 : array.length;
+  // 递归深度为 1
   return length ? baseFlatten(array, 1) : [];
 }
 

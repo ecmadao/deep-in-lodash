@@ -4,6 +4,7 @@ import isIndex from './isIndex.js';
 import isObject from '../isObject.js';
 
 /**
+ * 检查是否是递归调用
  * Checks if the given arguments are from an iteratee call.
  *
  * @private

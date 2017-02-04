@@ -68,6 +68,22 @@
   - [`chunk`](#chunk)
     - [Usage](#usage-20)
     - [Source Code](#source-code-17)
+  - [zip & unzip](#zip-&-unzip)
+    - [`zip`](#zip)
+      - [Usage](#usage-21)
+      - [Source Code](#source-code-18)
+    - [`unzip`](#unzip)
+      - [Usage](#usage-22)
+      - [Source Code](#source-code-19)
+    - [`zipWith`](#zipwith)
+      - [Usage](#usage-23)
+      - [Source Code](#source-code-20)
+    - [`unzipWith`](#unzipwith)
+      - [Usage](#usage-24)
+      - [Source Code](#source-code-21)
+    - [`zipObject`](#zipobject)
+      - [Usage](#usage-25)
+      - [Source Code](#source-code-22)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1047,6 +1063,23 @@ function unzip(array) {
 }
 ```
 
+#### `zipWith`
+
+在 `zip` 以后，将返回的结果代入到附加的函数中，返回最终的结果
+
+##### Usage
+
+```javascript
+_.zipWith([1, 2], [10, 20], [100, 200], function(a, b, c) {
+  return a + b + c;
+});
+// => [111, 222]
+```
+
+##### Source Code
+
+
+
 #### `unzipWith`
 
 在 `unzip` 以后，将返回的结果代入到附加的函数中，返回最终的结果
@@ -1099,10 +1132,13 @@ _.zipObject(['a', 'b'], [1, 2]);
 ##### Source Code
 
 ```javascript
+// 给对象添加一个键值对
 import assignValue from './.internal/assignValue.js';
 import baseZipObject from './.internal/baseZipObject.js';
 
+// zipObject(['a', 'b'], [1, 2])
 function zipObject(props, values) {
+  // baseZipObject(['a', 'b'], [1, 2], assignValue)
   return baseZipObject(props || [], values || [], assignValue);
 }
 ```
@@ -1115,10 +1151,44 @@ function baseZipObject(props, values, assignFunc) {
   const result = {};
 
   while (++index < length) {
+    // 获取 values 里相同 index 的元素，不存在则使用 undefined
     const value = index < valsLength ? values[index] : undefined;
+    // 每次遍历时给 result 添加键值对
     assignFunc(result, props[index], value);
   }
   return result;
 }
 ```
 
+```javascript
+import baseAssignValue from './baseAssignValue.js';
+import eq from '../eq.js';
+
+/** 检查对象是否已有目标 key */
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function assignValue(object, key, value) {
+  const objValue = object[key];
+  // 如果对象中没有目标 key
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    baseAssignValue(object, key, value);
+  }
+}
+
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__') {
+    Object.defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+```
+
+- [defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
+- [Object.prototype.__proto__](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/proto)

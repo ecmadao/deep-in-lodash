@@ -5,6 +5,7 @@ import eq from '../eq.js';
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
+ * 给对象添加一个键值对，如果键已经存在则改写已有的值
  * Assigns `value` to `key` of `object` if the existing value is not equivalent
  * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * for equality comparisons.

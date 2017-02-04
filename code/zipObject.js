@@ -1,3 +1,4 @@
+// 给对象添加一个键值对
 import assignValue from './.internal/assignValue.js';
 import baseZipObject from './.internal/baseZipObject.js';
 

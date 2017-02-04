@@ -14,7 +14,9 @@ function baseZipObject(props, values, assignFunc) {
   const result = {};
 
   while (++index < length) {
+    // 获取 values 里相同 index 的元素，不存在则使用 undefined
     const value = index < valsLength ? values[index] : undefined;
+    // 每次遍历时给 result 添加键值对
     assignFunc(result, props[index], value);
   }
   return result;

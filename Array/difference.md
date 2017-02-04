@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [difference](#difference)
+  - [`difference`](#difference)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`differenceBy`](#differenceby)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+  - [`differenceWith`](#differencewith)
+    - [Usage](#usage-2)
+    - [Source Code](#source-code-2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## difference
 
 ### `difference`

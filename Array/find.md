@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [find](#find)
+  - [`findIndex`](#findindex)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`findLastIndex`](#findlastindex)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## find
 
 ### `findIndex`

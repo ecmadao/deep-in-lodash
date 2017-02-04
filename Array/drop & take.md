@@ -1,3 +1,34 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [drop & take](#drop-&-take)
+  - [drop](#drop)
+    - [`drop`](#drop)
+      - [Usage](#usage)
+      - [Source Code](#source-code)
+    - [`dropWhile`](#dropwhile)
+      - [Usage](#usage-1)
+      - [Source Code](#source-code-1)
+    - [`dropRight`](#dropright)
+      - [Usage](#usage-2)
+      - [Source Code](#source-code-2)
+    - [`dropRightWhile`](#droprightwhile)
+      - [Usage](#usage-3)
+      - [Source Code](#source-code-3)
+  - [take](#take)
+    - [`take`](#take)
+      - [Usage](#usage-4)
+      - [Source Code](#source-code-4)
+    - [`takeWhile`](#takewhile)
+      - [Usage](#usage-5)
+    - [`takeRight`](#takeright)
+      - [Usage](#usage-6)
+    - [`takeRightWhile`](#takerightwhile)
+      - [Usage](#usage-7)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## drop & take
 
 ### drop

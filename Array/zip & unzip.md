@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [zip & unzip](#zip-&-unzip)
+  - [`zip`](#zip)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`unzip`](#unzip)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+  - [`zipWith`](#zipwith)
+    - [Usage](#usage-2)
+    - [Source Code](#source-code-2)
+  - [`unzipWith`](#unzipwith)
+    - [Usage](#usage-3)
+    - [Source Code](#source-code-3)
+  - [`zipObject`](#zipobject)
+    - [Usage](#usage-4)
+    - [Source Code](#source-code-4)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## zip & unzip
 
 > 压缩与解压缩，可以理解为将多个 Array 打包及拆分的过程

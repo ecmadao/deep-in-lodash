@@ -29,6 +29,8 @@ function basePullAll(array, values, iteratee, comparator) {
   if (iteratee) {
     seen = arrayMap(array, value => iteratee(value));
   }
+  // 遍历每个要去除的元素，获取其在 array 中的 index
+  // 若不是 -1，则通过原生的 slice 方法去除它
   while (++index < length) {
     let fromIndex = 0;
     const value = values[index];

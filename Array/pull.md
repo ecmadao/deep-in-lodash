@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [pull](#pull)
+  - [`pull`](#pull)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`pullAll`](#pullall)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## pull
 
 > pull 系列方法用于从一个 Array 中去除指定的元素，**会修改原有的数组**
@@ -49,6 +63,8 @@ function pullAll(array, values) {
 ```
 
 ```javascript
+const splice = Array.prototype.splice;
+
 function basePullAll(array, values, iteratee, comparator) {
   const indexOf = comparator ? baseIndexOfWith : baseIndexOf;
   const length = values.length;
@@ -62,6 +78,8 @@ function basePullAll(array, values, iteratee, comparator) {
   if (iteratee) {
     seen = arrayMap(array, value => iteratee(value));
   }
+  // 遍历每个要去除的元素，获取其在 array 中的 index
+  // 若不是 -1，则通过原生的 slice 方法去除它
   while (++index < length) {
     let fromIndex = 0;
     const value = values[index];

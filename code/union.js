@@ -17,7 +17,16 @@ import isArrayLikeObject from './isArrayLikeObject.js';
  * union([2], [1, 2]);
  * // => [2, 1]
  */
+
+ // 利用 baseFlatten API 将传入的多个数组扁平化为一个
+ // 例如，
+ // union([1], [1, 2])
 function union(...arrays) {
+  // arrays = [[1], [1, 2]]
+  // baseFlatten(arrays, 1, isArrayLikeObject, true)
+  // ===> [1, 1, 2]
+  // baseUniq([1, 1, 2])
+  // ===> [1, 2]
   return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
 }
 

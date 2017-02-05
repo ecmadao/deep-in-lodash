@@ -31,7 +31,7 @@ _.flatten([1, [2, [3, [4]], 5]]);
 
 #### Source Code
 
-> [baseFlatten 源码解析](./others.md)
+> [baseFlatten 源码解析](./others.md#concat)
 
 ```javascript
 function flatten(array) {

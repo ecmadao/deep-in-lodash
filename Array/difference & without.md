@@ -2,26 +2,33 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [difference](#difference)
-  - [`difference`](#difference)
-    - [Usage](#usage)
-    - [Source Code](#source-code)
-  - [`differenceBy`](#differenceby)
-    - [Usage](#usage-1)
-    - [Source Code](#source-code-1)
-  - [`differenceWith`](#differencewith)
-    - [Usage](#usage-2)
-    - [Source Code](#source-code-2)
+- [difference & without](#difference-&-without)
+  - [difference](#difference)
+    - [`difference`](#difference)
+      - [Usage](#usage)
+      - [Source Code](#source-code)
+    - [`differenceBy`](#differenceby)
+      - [Usage](#usage-1)
+      - [Source Code](#source-code-1)
+    - [`differenceWith`](#differencewith)
+      - [Usage](#usage-2)
+      - [Source Code](#source-code-2)
+  - [without](#without)
+    - [`without`](#without)
+      - [Usage](#usage-3)
+      - [Source Code](#source-code-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## difference
+## difference & without
 
-### `difference`
+### difference
+
+#### `difference`
 
 筛选出第一个 Array 中有，但其他 Array 中都没有的参数，返回值为元素组成的 Array
 
-#### Usage
+##### Usage
 
 ```javascript
 _.difference([2, 1], [2, 3]);
@@ -31,7 +38,7 @@ _.difference([2, 1], [2, 3], [1, 4]);
 // => []
 ```
 
-####  Source Code
+#####  Source Code
 
 ```javascript
 import baseDifference from './.internal/baseDifference.js';
@@ -95,11 +102,11 @@ baseDifference(array, values, iteratee, comparator)
 
 > [`baseDifference` 源码注释解读](./code/.internal/baseDifference.js)
 
-### `differenceBy`
+#### `differenceBy`
 
 类似于 `difference` ，但指定了比较时一个类似 format 的方法。相当于 `baseDifference` 中声明了 `iteratee` 参数，在比较过程中，会将每个元素代入 `iteratee` 方法中，用返回的结果进行比较。
 
-#### Usage
+##### Usage
 
 ```javascript
 _.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor);
@@ -110,7 +117,7 @@ _.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
 // => [{ 'x': 2 }]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 // last 方法用于获取数组的最后一个元素
@@ -128,11 +135,11 @@ function differenceBy(array, ...values) {
 }
 ```
 
-### `differenceWith`
+#### `differenceWith`
 
 类似于 `difference` ，但声明了 `comparator`方法。相当于 `baseDifference` 中代入了 `comparator` 参数，在比较过程中，将按照 `comparator` 方法作为比较的规则。
 
-#### Usage
+##### Usage
 
 ```javascript
 var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
@@ -141,7 +148,7 @@ _.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
 // => [{ 'x': 2, 'y': 1 }]
 ```
 
-#### Source Code
+##### Source Code
 
 ```javascript
 function differenceWith(array, ...values) {
@@ -154,3 +161,24 @@ function differenceWith(array, ...values) {
     : [];
 }
 ```
+### without
+
+> without 方法用于获取一个数组中去除了指定参数之后的元素，并且不改变原有数组
+
+#### `without`
+
+##### Usage
+
+```javascript
+_.without([2, 1, 2, 3], 1, 2);
+// => [3]
+```
+
+##### Source Code
+
+```javascript
+function without(array, ...values) {
+  return isArrayLikeObject(array) ? baseDifference(array, values) : [];
+}
+```
+

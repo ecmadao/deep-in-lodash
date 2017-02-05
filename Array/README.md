@@ -15,10 +15,11 @@
   - `findLastIndex`
   - `indexOf`
   - `lastIndexOf`
-- [difference](./difference.md)
+- [difference & without](./difference & without.md)
   - `difference`
   - `differenceBy`
   - `differenceWith`
+  - `without`
 - [drop & take & remove](./drop & take & remove.md)
   - `drop`
   - `dropWhile`
@@ -45,6 +46,11 @@
   - `zipWith`
   - `unzipWith`
   - `zipObject`
+- [uniq & union](./uniq & union.md)
+  - `uniq`
+  - `uniqBy` & `uniqWith`
+  - `union`
+  - `unionBy` & `uniqWith`
 - [others](./others.md)
   - `compact`
   - `concat`

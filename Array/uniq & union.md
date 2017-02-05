@@ -3,24 +3,24 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [uniq & union](#uniq-&-union)
-- [uniq](#uniq)
-  - [`uniq`](#uniq)
-    - [Usage](#usage)
-    - [Source Code](#source-code)
-  - [`uniqBy` & `uniqWith`](#uniqby-&-uniqwith)
-    - [Usage](#usage-1)
-    - [Source Code](#source-code-1)
-- [union](#union)
-  - [`union`](#union)
-    - [Usage](#usage-2)
-    - [Source Code](#source-code-2)
-  - [`unionBy` & `uniqWith`](#unionby-&-uniqwith)
-    - [Usage](#usage-3)
-    - [Source Code](#source-code-3)
+  - [uniq](#uniq)
+    - [`uniq`](#uniq)
+      - [Usage](#usage)
+      - [Source Code](#source-code)
+    - [`uniqBy` & `uniqWith`](#uniqby-&-uniqwith)
+      - [Usage](#usage-1)
+      - [Source Code](#source-code-1)
+  - [union](#union)
+    - [`union`](#union)
+      - [Usage](#usage-2)
+      - [Source Code](#source-code-2)
+    - [`unionBy` & `uniqWith`](#unionby-&-uniqwith)
+      - [Usage](#usage-3)
+      - [Source Code](#source-code-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-### uniq & union
+## uniq & union
 
 ### uniq
 

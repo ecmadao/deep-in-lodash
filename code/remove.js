@@ -41,6 +41,7 @@ function remove(array, predicate) {
       indexes.push(index);
     }
   }
+  // 作用为修改原有 array，从 array 中删除目标 index 代表的元素
   basePullAt(array, indexes);
   return result;
 }

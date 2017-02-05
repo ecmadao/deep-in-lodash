@@ -13,6 +13,10 @@ const reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
+  // has length 变量
+  // type == 'number'
+  // (?:x) => x 相当于 0|[1-9]，总体即 0~9 的数字 + 0个或多个任意数字
+  // value > -1 ，value 是整数且小于 length
   length = length == null ? MAX_SAFE_INTEGER : length;
   return !!length &&
     (typeof value == 'number' || reIsUint.test(value)) &&

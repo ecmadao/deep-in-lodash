@@ -9,6 +9,12 @@
   - [`findLastIndex`](#findlastindex)
     - [Usage](#usage-1)
     - [Source Code](#source-code-1)
+  - [`indexOf`](#indexof)
+    - [Usage](#usage-2)
+    - [Source Code](#source-code-2)
+  - [`lastIndexOf`](#lastindexof)
+    - [Usage](#usage-3)
+    - [Source Code](#source-code-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,6 +163,52 @@ function baseIndexOfWith(array, value, fromIndex, comparator) {
     }
   }
   return -1;
+}
+```
+
+### `lastIndexOf`
+
+相对于 `indexOf` 方法，`lastIndexOf` 从数组的末尾开始匹配
+
+#### Usage
+
+```javascript
+_.lastIndexOf([1, 2, 1, 2], 2);
+// => 3
+ 
+// Search from the `fromIndex`.
+_.lastIndexOf([1, 2, 1, 2], 2, 2);
+// => 1
+```
+
+#### Source Code
+
+```javascript
+// lastIndexOf 的匹配是从右往左开始的
+function lastIndexOf(array, value, fromIndex) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return -1;
+  }
+  let index = length;
+  // fromIndex 代表从第几个元素开始匹配，但默认情况下 fromIndex 是从头开始计数的。当传入负值时，则代表从倒数第 length + fromIndex 个元素开始（最小为 0）
+  if (fromIndex !== undefined) {
+    index = toInteger(fromIndex);
+    index = index < 0 ? nativeMax(length + index, 0) : nativeMin(index, length - 1);
+  }
+  return value === value
+    ? strictLastIndexOf(array, value, index)
+    : baseFindIndex(array, baseIsNaN, index, true);
+}
+
+function strictLastIndexOf(array, value, fromIndex) {
+  let index = fromIndex + 1;
+  while (index--) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return index;
 }
 ```
 

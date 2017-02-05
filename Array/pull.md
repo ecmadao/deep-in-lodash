@@ -9,6 +9,15 @@
   - [`pullAll`](#pullall)
     - [Usage](#usage-1)
     - [Source Code](#source-code-1)
+  - [`pullAllBy`](#pullallby)
+    - [Usage](#usage-2)
+    - [Source Code](#source-code-2)
+  - [`pullAllWith`](#pullallwith)
+    - [Usage](#usage-3)
+    - [Source Code](#source-code-3)
+  - [`pullAt`](#pullat)
+    - [Usage](#usage-4)
+    - [Source Code](#source-code-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -148,7 +157,9 @@ function pullAllWith(array, values, comparator) {
 
 ### `pullAt`
 
-第二个参数为 Array，代表想要 `pull` 的元素的 index；或者连续多个想要 `pull` 的元素的 index
+第二个参数为 Array，代表想要 `pull` 的元素的 index；或者连续多个想要 `pull` 的元素的 index 。
+
+**该方法返回被去除的元素组成的数组，并修改原有数组。**
 
 #### Usage
 
@@ -173,10 +184,66 @@ import isIndex from './.internal/isIndex.js';
 
 function pullAt(array, ...indexes) {
   const length = array == null ? 0 : array.length;
+  // 获取 indexes 中每个 index 所代表的元素
   const result = baseAt(array, indexes);
-
+  
+  // 从 array 中删除对应 index 的元素
   basePullAt(array, arrayMap(indexes, index => isIndex(index, length) ? +index : index).sort(compareAscending));
   return result;
+}
+```
+
+```javascript
+// 最大正整数
+const MAX_SAFE_INTEGER = 9007199254740991;
+// 匹配数字
+const reIsUint = /^(?:0|[1-9]\d*)$/;
+
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  // has length 变量
+  // type == 'number'
+  // (?:x) => x 相当于 0|[1-9]，总体即 0~9 的数字 + 0个或多个任意数字
+  // value > -1 ，value 是整数且小于 length
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+```
+
+```javascript
+function baseAt(object, paths) {
+  let index = -1;
+  const length = paths.length;
+  const result = Array(length);
+  const skip = object == null;
+
+  while (++index < length) {
+    result[index] = skip ? undefined : get(object, paths[index]);
+  }
+  return result;
+}
+```
+
+```javascript
+function basePullAt(array, indexes) {
+  let length = array ? indexes.length : 0;
+  const lastIndex = length - 1;
+
+  while (length--) {
+    let previous;
+    const index = indexes[length];
+    if (length == lastIndex || index !== previous) {
+      previous = index;
+      // 如果是 index，则调用原生 splice 方法切合数组，否则认为是 Object/key，从对象中删除目标 key
+      if (isIndex(index)) {
+        splice.call(array, index, 1);
+      } else {
+        baseUnset(array, index);
+      }
+    }
+  }
+  return array;
 }
 ```
 

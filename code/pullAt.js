@@ -27,10 +27,14 @@ import isIndex from './.internal/isIndex.js';
  * console.log(pulled);
  * // => ['b', 'd']
  */
+
+// 该方法返回被删除元素组成的数组，并修改原有数组
 function pullAt(array, ...indexes) {
   const length = array == null ? 0 : array.length;
+  // 获取 indexes 中每个 index 所代表的元素
   const result = baseAt(array, indexes);
 
+  // 从 array 中删除对应 index 的元素
   basePullAt(array, arrayMap(indexes, index => isIndex(index, length) ? +index : index).sort(compareAscending));
   return result;
 }

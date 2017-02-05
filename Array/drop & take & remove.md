@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [drop & take](#drop-&-take)
+- [drop & take & remove](#drop-&-take-&-remove)
   - [drop](#drop)
     - [`drop`](#drop)
       - [Usage](#usage)
@@ -24,12 +24,17 @@
       - [Usage](#usage-5)
     - [`takeRight`](#takeright)
       - [Usage](#usage-6)
+      - [Source Code](#source-code-5)
     - [`takeRightWhile`](#takerightwhile)
       - [Usage](#usage-7)
+  - [remove](#remove)
+    - [`remove`](#remove)
+      - [Usage](#usage-8)
+      - [Source Code](#source-code-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## drop & take
+## drop & take & remove
 
 ### drop
 
@@ -328,6 +333,16 @@ _.takeRight([1, 2, 3], 2);
 // => [2, 3]
 ```
 
+##### Source Code
+
+```javascript
+function takeWhile(array, predicate) {
+  return (array && array.length)
+    ? baseWhile(array, predicate)
+    : [];
+}
+```
+
 #### `takeRightWhile`
 
 从 Array 右侧开始，返回符合指定条件的元素
@@ -344,3 +359,50 @@ var users = [
 _.takeRightWhile(users, function(o) { return !o.active; });
 // => objects for ['fred', 'pebbles']
 ```
+### remove
+
+#### `remove`
+
+> 删除一个 Array 中符合某种条件的元素，**修改原有数组，并返回被删除元素组成的 Array
+
+##### Usage
+
+```javascript
+var array = [1, 2, 3, 4];
+var evens = _.remove(array, function(n) {
+  return n % 2 == 0;
+});
+ 
+console.log(array);
+// => [1, 3]
+ 
+console.log(evens);
+// => [2, 4]
+```
+
+##### Source Code
+
+```javascript
+// 基本原理是，遍历 array，针对每个元素代入 predicate 方法，如果为 true，则记录其 index，最后获取所有符合条件的 index 组成的 Array，之后调用私有 basePullAt API 来修改原有数组
+function remove(array, predicate) {
+  const result = [];
+  if (!(array && array.length)) {
+    return result;
+  }
+  let index = -1;
+  const indexes = [];
+  const length = array.length;
+
+  while (++index < length) {
+    const value = array[index];
+    if (predicate(value, index, array)) {
+      result.push(value);
+      indexes.push(index);
+    }
+  }
+  // 作用为修改原有 array，从 array 中删除目标 index 代表的元素
+  basePullAt(array, indexes);
+  return result;
+}
+```
+

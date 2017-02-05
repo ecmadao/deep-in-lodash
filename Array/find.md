@@ -89,3 +89,74 @@ function findLastIndex(array, predicate, fromIndex) {
   return baseFindIndex(array, predicate, index, true);
 }
 ```
+### `indexOf`
+
+获取目标元素在一个数组中的 index
+
+#### Usage
+
+```javascript
+_.indexOf([1, 2, 1, 2], 2);
+// => 1
+ 
+// Search from the `fromIndex`.
+_.indexOf([1, 2, 1, 2], 2, 2);
+// => 3
+```
+
+#### Source Code
+
+```javascript
+// fromIndex 代表比较的起始 index，即从 fromIndex 之后开始寻找 target index
+function indexOf(array, value, fromIndex) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return -1;
+  }
+  // fromIndex 可以小于 0，小于 0 则代表从数组尾部开始，因此实际的 fromIndex 为 length + index
+  let index = fromIndex == null ? 0 : toInteger(fromIndex);
+  if (index < 0) {
+    index = nativeMax(length + index, 0);
+  }
+  return baseIndexOf(array, value, index);
+}
+```
+
+```javascript
+function baseIndexOf(array, value, fromIndex) {
+  // 如果 value 不是 NaN，则通过 strictIndexOf 获取 index
+  // 否则使用 baseFindIndex 方法，同时把 baseIsNaN 代入，以判断数组中的元素是否是 NaN
+  return value === value
+    ? strictIndexOf(array, value, fromIndex)
+    : baseFindIndex(array, baseIsNaN, fromIndex);
+}
+
+function strictIndexOf(array, value, fromIndex) {
+  let index = fromIndex - 1;
+  const length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+```
+
+除了 `baseIndexOf` 方法以外，还有一个 `baseIndexOfWith`私有 API，即在比较时通过自定义的方法来判断目标值和数组中的值是否相等：
+
+```javascript
+function baseIndexOfWith(array, value, fromIndex, comparator) {
+  let index = fromIndex - 1;
+  const length = array.length;
+
+  while (++index < length) {
+    if (comparator(array[index], value)) {
+      return index;
+    }
+  }
+  return -1;
+}
+```
+

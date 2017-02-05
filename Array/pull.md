@@ -62,6 +62,8 @@ function pullAll(array, values) {
 }
 ```
 
+- [`baseIndexOf`/`baseIndexOfWith` 私有方法](./find.md#indexOf)
+
 ```javascript
 const splice = Array.prototype.splice;
 
@@ -75,6 +77,7 @@ function basePullAll(array, values, iteratee, comparator) {
   if (array === values) {
     values = copyArray(values);
   }
+  // 如果有指定规则，则使用规则进行一遍遍历
   if (iteratee) {
     seen = arrayMap(array, value => iteratee(value));
   }
@@ -95,3 +98,85 @@ function basePullAll(array, values, iteratee, comparator) {
   return array;
 }
 ```
+### `pullAllBy`
+
+在 `pullAll` 的时候指定一个规则，该规则在比较参数是否应该被 `pull` 之前，会先作用于 array 上
+
+#### Usage
+
+```javascript
+var array = [{ 'x': 1 }, { 'x': 2 }, { 'x': 3 }, { 'x': 1 }];
+ 
+_.pullAllBy(array, [{ 'x': 1 }, { 'x': 3 }], 'x');
+console.log(array);
+// => [{ 'x': 2 }]
+```
+
+#### Source Code
+
+```javascript
+function pullAllBy(array, values, iteratee) {
+  return (array && array.length && values && values.length)
+    ? basePullAll(array, values, iteratee)
+    : array;
+}
+```
+
+### `pullAllWith`
+
+最基本的 `pull` 方法，是通过 `===` 比较目标元素是否在数组中，存在则去除。而 `pullAllWith` 则自定义了比较的方法，在比较时通过自定义方法来决定是否去除该元素。
+
+#### Usage
+
+```javascript
+var array = [{ 'x': 1, 'y': 2 }, { 'x': 3, 'y': 4 }, { 'x': 5, 'y': 6 }];
+ 
+_.pullAllWith(array, [{ 'x': 3, 'y': 4 }], _.isEqual);
+console.log(array);
+// => [{ 'x': 1, 'y': 2 }, { 'x': 5, 'y': 6 }]
+```
+
+#### Source Code
+
+```javascript
+function pullAllWith(array, values, comparator) {
+  return (array && array.length && values && values.length)
+    ? basePullAll(array, values, undefined, comparator)
+    : array;
+}
+```
+
+### `pullAt`
+
+第二个参数为 Array，代表想要 `pull` 的元素的 index；或者连续多个想要 `pull` 的元素的 index
+
+#### Usage
+
+```javascript
+var array = ['a', 'b', 'c', 'd'];
+var pulled = _.pullAt(array, [1, 3]);
+ 
+console.log(array);
+// => ['a', 'c']
+ 
+console.log(pulled);
+// => ['b', 'd']
+```
+
+#### Source Code
+
+```javascript
+import baseAt from './.internal/baseAt.js';
+import basePullAt from './.internal/basePullAt.js';
+import compareAscending from './.internal/compareAscending.js';
+import isIndex from './.internal/isIndex.js';
+
+function pullAt(array, ...indexes) {
+  const length = array == null ? 0 : array.length;
+  const result = baseAt(array, indexes);
+
+  basePullAt(array, arrayMap(indexes, index => isIndex(index, length) ? +index : index).sort(compareAscending));
+  return result;
+}
+```
+

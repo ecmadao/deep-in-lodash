@@ -51,6 +51,9 @@
   - `uniqBy` & `uniqWith`
   - `union`
   - `unionBy` & `uniqWith`
+- [xor](./xor.md)
+  - `xor`
+  - `xorBy` & `xorWith`
 - [others](./others.md)
   - `compact`
   - `concat`

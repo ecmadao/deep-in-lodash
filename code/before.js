@@ -20,7 +20,9 @@ function before(n, func) {
   if (typeof func != 'function') {
     throw new TypeError('Expected a function');
   }
+  // 形成闭包，储存 n
   n = toInteger(n);
+  // 在 n > 0 之前，每次 func 都能够触发
   return function(...args) {
     if (--n > 0) {
       result = func.apply(this, args);

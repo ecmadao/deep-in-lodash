@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Deep in Lodash](#deep-in-lodash)
+  - [扩展阅读](#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -11,6 +12,7 @@
 > 深入学习 lodash 中的源码
 
 - [Array Functions](./Array)
+- [Func Functions](./Function)
 
 ### 扩展阅读
 

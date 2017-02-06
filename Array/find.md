@@ -6,15 +6,18 @@
   - [`findIndex`](#findindex)
     - [Usage](#usage)
     - [Source Code](#source-code)
+    - [Native API](#native-api)
   - [`findLastIndex`](#findlastindex)
     - [Usage](#usage-1)
     - [Source Code](#source-code-1)
   - [`indexOf`](#indexof)
     - [Usage](#usage-2)
     - [Source Code](#source-code-2)
+    - [Native API](#native-api-1)
   - [`lastIndexOf`](#lastindexof)
     - [Usage](#usage-3)
     - [Source Code](#source-code-3)
+    - [Native API](#native-api-2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -57,6 +60,30 @@ function baseFindIndex(array, predicate, fromIndex, fromRight) {
 }
 ```
 
+#### Native API
+
+原生 JS 拥有 `find`/`findIndex` API
+
+- `find`：根据一个指定的函数进行筛选，但它不能获取到符合条件的元素的 index，而是筛选出第一个符合条件的元素，且**不支持 IE**。
+- `findIndex`：根据一个指定的函数进行筛选，获取到第一个符合条件的元素的 index，但**不支持 IE**。
+
+```javascript
+const users = [
+  { 'user': 'barney',  'age': 36, 'active': true },
+  { 'user': 'ecmadao',  'age': 24, 'active': true },
+  { 'user': 'fred',    'age': 40, 'active': false },
+  { 'user': 'pebbles', 'age': 1,  'active': true }
+]
+
+/* ===== find ===== */
+users.find(function (o) { return o.age < 40; });
+// => { 'user': 'barney',  'age': 36, 'active': true }
+
+/* ===== findIndex ===== */
+const index = users.findIndex(function (o) { return o.age >= 40; })
+console.log(index); // 2
+```
+
 ### `findLastIndex`
 
 该方法类似于 `findIndex` ，但是是从右往左开始判断。
@@ -64,7 +91,7 @@ function baseFindIndex(array, predicate, fromIndex, fromRight) {
 #### Usage
 
 ```javascript
-var users = [
+const users = [
   { 'user': 'barney',  'active': true },
   { 'user': 'fred',    'active': false },
   { 'user': 'pebbles', 'active': false }
@@ -166,6 +193,17 @@ function baseIndexOfWith(array, value, fromIndex, comparator) {
 }
 ```
 
+#### Native API
+
+原生 JS 的 `indexOf` API，可以完成 lodash 中 `indexOf` 的简单的功能，即通过 `===` 来判断两个元素是否相等，之后返回其 index。
+
+```javascript
+const array = [1, 2, 2]
+const result = array.indexOf(2)
+console.log(result)
+// 1
+```
+
 ### `lastIndexOf`
 
 相对于 `indexOf` 方法，`lastIndexOf` 从数组的末尾开始匹配
@@ -210,5 +248,16 @@ function strictLastIndexOf(array, value, fromIndex) {
   }
   return index;
 }
+```
+
+#### Native API
+
+原生 JS 的 `lastIndexOf` API，可以完成 lodash 中 `lastIndexOf` 的简单的功能，即通过 `===` 来判断两个元素是否相等，之后返回其 index。
+
+```javascript
+const array = [1, 2, 2]
+const result = array.lastIndexOf(2)
+console.log(result)
+// 2
 ```
 

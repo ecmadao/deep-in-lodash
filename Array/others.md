@@ -9,9 +9,11 @@
   - [`concat`](#concat)
     - [Usage](#usage-1)
     - [Source Code](#source-code-1)
+    - [Native API](#native-api)
   - [`fill`](#fill)
     - [Usage](#usage-2)
     - [Source Code](#source-code-2)
+    - [Native API](#native-api-1)
   - [`fromPairs`](#frompairs)
     - [Usage](#usage-3)
     - [Source Code](#source-code-3)
@@ -150,6 +152,19 @@ function copyArray(source, array) {
 }
 ```
 
+#### Native API
+
+使用 JS 原生 API 完成 `concat` 操作。
+
+```javascript
+// Native
+var array = [1]
+var other = array.concat(2, [3], [[4]])
+
+console.log(other)
+// output: [1, 2, 3, [4]]
+```
+
 ### `fill`
 
 用 `value` 填充一个数组从 `[start, end)` 里的元素。
@@ -197,9 +212,18 @@ function baseFill(array, value, start, end) {
 ```javascript
 _.fill(Array(3), 2);
 // => [2, 2, 2]
+```
 
-//但我们也可以通过 ES6 API 来实现：
+#### Native API
+
+```javascript
+// 我们可以通过 ES6 API 来实现：
 new Array(3).fill(0) // => [0, 0, 0]
+
+var array = [1, 2, 3]
+array.fill('a')
+console.log(array)
+// output: ['a', 'a', 'a']
 
 // 可惜的是 ES6 fill 兼容性还不是很高，在安卓微信内就会报错。因此，还有一种完全兼容的写法：
 Array.from(new Array(3), (item, index) => 0); // => [0, 0, 0]

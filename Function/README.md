@@ -16,5 +16,9 @@
   - `before`
   - `once`
 
-  ​
+- [Func with delay](./func with delay.md)
+  - `delay`
+  - `defer`
+  - `debounce`
+  - `throttle`
 

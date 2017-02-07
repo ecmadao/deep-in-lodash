@@ -33,10 +33,10 @@ import isObject from './isObject.js';
  * @returns {Function} Returns the new throttled function.
  * @example
  *
- * // Avoid excessively updating the position while scrolling.
+ * // 在 window 连续持续滚动的过程中，每 100 毫秒触发一次 updatePosition 回调
  * jQuery(window).on('scroll', throttle(updatePosition, 100));
  *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * // 点击事件的回调函数在 5 分钟内只会被触发一次
  * const throttled = throttle(renewToken, 300000, { 'trailing': false });
  * jQuery(element).on('click', throttled);
  *

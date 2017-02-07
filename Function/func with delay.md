@@ -1,63 +1,99 @@
-import isObject from './isObject.js';
-import toNumber from './toNumber.js';
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-/* Built-in method references for those with the same name as other `lodash` methods. */
-const nativeMax = Math.max;
-const nativeMin = Math.min;
+- [Func with delay](#func-with-delay)
+  - [`delay`](#delay)
+    - [Usage](#usage)
+    - [Source Code](#source-code)
+  - [`defer`](#defer)
+    - [Usage](#usage-1)
+    - [Source Code](#source-code-1)
+  - [`debounce` 和 `throttle`](#debounce-%E5%92%8C-throttle)
+    - [`debounce`](#debounce)
+      - [Usage](#usage-2)
+      - [Source Code](#source-code-2)
+    - [`throttle`](#throttle)
+      - [Usage](#usage-3)
+      - [Source Code](#source-code-3)
 
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `debounce` and `throttle`.
- *
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * const debounced = debounce(batchLog, 250, { 'maxWait': 1000 });
- * const source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Func with delay
+
+### `delay`
+
+最基本的 `deplay` API，内部通过 `setTimeout` 来延迟调用回调函数
+
+#### Usage
+
+```javascript
+_.delay(function(text) {
+  console.log(text);
+}, 1000, 'later'); // 1 秒后输出 'later'
+```
+
+#### Source Code
+
+```javascript
+function delay(func, wait, ...args) {
+  if (typeof func != 'function') {
+    throw new TypeError('Expected a function');
+  }
+  return setTimeout(() => func(...args), toNumber(wait) || 0);
+}
+```
+
+### `defer`
+
+延迟一秒触发指定的函数
+
+#### Usage
+
+```javascript
+_.defer(function(text) {
+  console.log(text);
+}, 'deferred');
+// => 1s 后输出 'deferred'
+```
+
+#### Source Code
+
+```javascript
+function defer(func, ...args) {
+  if (typeof func != 'function') {
+    throw new TypeError('Expected a function');
+  }
+  return setTimeout(() => func(...args), 1);
+}
+```
+
+### `debounce` 和 `throttle`
+
+总体而言，
+
+- `debounce`：通过设置一个时间间隔，强迫一个函数在事件连续触发时不会被持续调用。除非事件的时间间隔大于指定的等待时间
+- `throttle`：限制一个函数在一段时间内的调用次数。比如，在 10s 内触发 1000 次事件，但你设定了每个回调函数的时间间隔是 100 毫秒，则最终将会调用 100 次回调
+
+扩展阅读：
+
+- [The Difference Between Throttling and Debouncing](https://css-tricks.com/the-difference-between-throttling-and-debouncing/)
+- [Debouncing and Throttling Explained Through Examples](https://css-tricks.com/debouncing-throttling-explained-examples/)
+
+#### `debounce`
+
+当事件流重复触发的事件间隔小于指定时间时，回调函数不会被触发。
+
+##### Usage
+
+```javascript
+// 连续改变窗口大小，且事件触发的时间间隔小于 150 ms 时，calculateLayout 不会被触发
+jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+```
+
+##### Source Code
+
+```javascript
 /**
  * 当事件重复触发的事件间隔小于指定时间时，回调函数不会被触发
  * @method debounce
@@ -214,5 +250,61 @@ function debounce(func, wait, options) {
   debounced.flush = flush;
   return debounced;
 }
+```
 
-export default debounce;
+#### `throttle`
+
+函数被触发的最小时间间隔不能小于设定的时间，除此以外，函数可以被持续的触发。
+
+##### Usage
+
+```javascript
+// 在 window 连续持续滚动的过程中，每 100 毫秒触发一次 updatePosition 回调
+jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+
+// 点击事件的回调函数在 5 分钟内只会被触发一次
+const throttled = throttle(renewToken, 300000, { 'trailing': false });
+jQuery(element).on('click', throttled);
+```
+
+##### Source Code
+
+```javascript
+function throttle(func, wait, options) {
+  let leading = true;
+  let trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError('Expected a function');
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+```
+
+`throttle` 的常见运用场景是，针对某个连续触发的事件流，限制其每个事件回调函数的调用频率。我们也可以通过 `setTimeout` / `clearTimeout` 完成一个简陋版：
+
+```javascript
+// 比如在 React 中，
+// 修改窗口大小，在窗口改变大小的同时需要将宽、高等参数设置到 state 中
+// 此时如果连续的调用，则比较影响性能。因此需要一个定时器来限制调用的频率
+initialResizeListener() {
+  $(window).resize(() => {
+    // 在连续不断触发 resize 的过程中，如果有 timer 则说明刚执行完上一个回调，且正在执行下一个回调
+    // 因此，取消并重新设置定时器
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    // 如果 resize 事件之间的触发间隔超过了 100ms，则可以触发 resetState 方法
+    this.timer = setTimeout(this.resetState, 100);
+  });
+}
+```
+

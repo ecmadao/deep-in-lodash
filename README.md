@@ -21,5 +21,3 @@
 - [Lodash: 10 Javascript Utility Functions That You Should Probably Stop Rewriting](http://colintoh.com/blog/lodash-10-javascript-utility-functions-stop-rewriting)
 - [Why using `_.chain` is a mistake.](https://medium.com/making-internets/why-using-chain-is-a-mistake-9bc1f80d51ba#.a4ijasdil)
 - [You-Dont-Need-Lodash-Underscore](https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore)
-- [Debouncing and Throttling Explained Through Examples](https://css-tricks.com/debouncing-throttling-explained-examples/)
-

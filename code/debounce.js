@@ -66,8 +66,8 @@ const nativeMin = Math.min;
  * @param  {[type]} options 配置参数
  *
  * options:
- *    - leading = false: 触发连续多个事件（时间间隔小于 wait），只有第一个事件的回调会被触发
- *    - trailing = true: 触发连续多个事件（时间间隔小于 wait），只有最后一个事件的回调会被触发
+ *    - leading = false: 触发连续多个事件（ 时间间隔小于 wait ），只有第一个事件的回调会被触发
+ *    - trailing = true: 触发连续多个事件（ 时间间隔小于 wait ），只有最后一个事件的回调会被触发
  *    - maxWait: 回调函数可被延迟调用的最长时间
  *
  * **注：**
@@ -112,7 +112,7 @@ function debounce(func, wait, options) {
 
   // 第一个事件被触发
   function leadingEdge(time) {
-    // 令上次调用时间 = time，相当于将已等待时间设置为 0
+    // 令上次调用时间 = time, 相当于将已等待时间设置为 0
     lastInvokeTime = time;
     // 设置定时器，等待 wait 之后触发过期函数
     timerId = setTimeout(timerExpired, wait);
@@ -130,7 +130,7 @@ function debounce(func, wait, options) {
     return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
   }
 
-  // 根据时间差来判断是否可以调用回调函数
+  // 判断是否是在事件的末尾且可以调用回调函数
   function shouldInvoke(time) {
     // 当前时间距上一次事件触发过了多久
     const timeSinceLastCall = time - lastCallTime;
@@ -149,7 +149,7 @@ function debounce(func, wait, options) {
   }
 
   // 通过 timeout 等待过后的过期函数
-  // 如果可以执行回调（shouldInvoke），则尝试通过 trailingEdge 进行调用
+  // 检查是否处于事件末尾、可以执行回调的状态(shouldInvoke)。如果是，则尝试通过 trailingEdge 进行调用
   // 否则认为事件还在被触发，继续设置定时器
   function timerExpired() {
     const time = Date.now();
